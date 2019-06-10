@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Laravel</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+    <!-- Styles -->
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 200;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .full-height {
+            height: 100vh;
+        }
+
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .position-ref {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 84px;
+        }
+
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .m-b-md {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<h3>学生信息管理</h3>
+<form action="{{url('student/update')}}" method="post">
+    @csrf
+    <input type="hidden" name="s_id" value="{{$data->s_id}}">
+    <p><b>学生姓名:</b><input type="text" name="s_name" value="{{$data->s_name}}"></p>
+    <p>
+        <b>学生性别:</b>
+        <input type="radio" name="s_sex" value="1" @if($data->s_sex==1) checked @endif>男
+        <input type="radio" name="s_sex" value="2" @if($data->s_sex==2) checked @endif>女
+    </p>
+    <p>
+        <b>学生年龄:</b>
+        <input type="text" name="s_age" value="{{$data->s_age}}">
+    </p>
+    <p>
+        <button>提交</button>
+    </p>
+</form>
+</body>
+</html>

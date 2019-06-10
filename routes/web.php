@@ -18,3 +18,12 @@ Route::get('/', function () {
 //    return view('welcome');
 //});
 Route::get('user','UserController@index');
+
+Route::prefix('/student')->group(function(){
+    Route::get('add','StudentController@create');
+    Route::post('do_add','StudentController@store');
+    Route::get('list','StudentController@index');
+    Route::post('delete','StudentController@del');
+    Route::get('edit','StudentController@edit');
+    Route::post('update/','StudentController@update');
+});
