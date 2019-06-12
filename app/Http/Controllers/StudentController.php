@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use App\http\Tools\Tools;
 class StudentController extends Controller
 {
     /**
@@ -11,8 +12,21 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $tools;
+    public function __construct(Tools $tools)
+    {
+       $this->Tools = $tools;
+    }
     public function index()
     {
+        $redis=$this->Tools->getRedis();
+//        $redis = new \Redis();
+//        $redis->connect('127.0.0.1','6379');
+//        $res=$redis->exists('xxoo');
+        $redis->incr('xxoo');
+//        $data=$redis->get('xxoo');
+//        echo $data;
 //        echo 111;
 //        $data=DB::table('student')->get();
 //        return view('list',compact('data'));
@@ -26,6 +40,11 @@ class StudentController extends Controller
         }
         $pageSize=config('app.pageSize');
         $data=DB::table('student')->where($where)->paginate($pageSize);
+        $stu_info=$data->toArray();
+        $stu_json=json_encode($stu_info);
+//        var_dump($stu_json);
+        $redis->set('stu_info',$stu_json,10);
+
         return view('list',['data'=>$data,'query'=>$query]);
     }
 
@@ -36,6 +55,11 @@ class StudentController extends Controller
      */
     public function create()
     {
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1','6379');
+        $redis->incr('xxoo');
+        $data=$redis->get('xxoo');
+        echo $data."<br/>";
         return view('add');
     }
 
