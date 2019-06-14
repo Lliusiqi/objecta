@@ -16,9 +16,14 @@ class LoginController extends Controller
 //        echo 111;
         $data=request()->except('_token');
 //        dd($data);
-        $r_pwd=md5('r_pwd');
-//        dd($r_pwd);
-        $res=DB::table('register')->insert($data);
+        if(empty($data['r_name'])){
+            echo '用户名不能为空';
+        }
+        if(empty($data['r_pwd'])){
+            echo '密码不能为空';
+        }
+//        dd($data);
+        $res=DB::table('register')->insert(['r_name'=>$data['r_name'],'r_pwd'=>md5($data['r_pwd'])]);
 //        dd($res);
         if($res){
             return redirect('login/login');
@@ -33,23 +38,26 @@ class LoginController extends Controller
     public function dologin()
     {
 //      echo 111;
-        $data=request()->all();
+        $data=request()->except('_token');
 //        dd($data);
-        $res=DB::table("register")->where('r_name',$data['r_name'])->get()->toArray();
-//        dd($res);
-        if($res){
-           if($data['r_name']==$res[0]->r_name || $data['r_pwd']==$res[0]->r_pwd){
-               return redirect('login/list');
-           }
+        $res=DB::table("register")->where('r_name','=',$data['r_name'])->where('r_pwd','=',md5($data['r_pwd']))->first();
+        if(!empty($res)){
+            session(['r_name'=>$data['r_name']]);
+//            dd( session('r_name'));
+            return redirect('login/list');
         }else{
             return redirect('login/login');
         }
-
-
     }
     public function list()
     {
-        echo 111;die;
+//        echo 111;die;
+        return view('login.list');
     }
-
+public function logout(Request $request)
+{
+//    echo 111;
+    $request->session()->forget('r_name');
+    return redirect('login/login');
+}
 }

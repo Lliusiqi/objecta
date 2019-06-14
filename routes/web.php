@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 //Route::get('user',function(){
 //    return view('welcome');
 //});
@@ -27,11 +27,20 @@ Route::prefix('/student')->middleware(['stu'])->group(function(){
     Route::get('edit','StudentController@edit');
     Route::post('update/','StudentController@update');
 });
-Route::prefix('/login')->group(function(){
-    Route::get('register','LoginController@register');
-    Route::post('doregister','LoginController@doregister');
-    Route::get('login','LoginController@login');
-    Route::any('dologin','LoginController@dologin');
+Route::prefix('/login')->middleware(['login'])->group(function(){
     Route::get('list','LoginController@list');
-
 });
+Route::get('/login/register','LoginController@register');
+Route::post('/login/doregister','LoginController@doregister');
+Route::get('/login/login','LoginController@login');
+Route::any('/login/dologin','LoginController@dologin');
+Route::get('/login/logout','LoginController@logout');
+
+Route::prefix('/goods')->group(function(){
+    Route::get('add','Admin\GoodsController@add');
+    Route::post('do_add','Admin\GoodsController@do_add');
+});
+Route::get('/',function(){
+    return view('index');
+});
+Route::get('index','IndexController@index');
