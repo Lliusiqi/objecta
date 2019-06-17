@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+ Route::get('/', function () {
+     return view('welcome');
+ });
 //Route::get('user',function(){
 //    return view('welcome');
 //});
@@ -40,7 +40,16 @@ Route::prefix('/goods')->group(function(){
     Route::get('add','Admin\GoodsController@add');
     Route::post('do_add','Admin\GoodsController@do_add');
 });
-Route::get('/',function(){
-    return view('index');
-});
+//Route::get('/',function(){
+//    return view('index');
+//});
 Route::get('index','IndexController@index');
+
+Route::prefix('/goods_a')->group(function(){
+    Route::get('add','Admin\Goods_aController@create');
+    Route::post('do_add','Admin\Goods_aController@store');
+    Route::get('list','Admin\Goods_aController@index');
+    Route::any('delete','Admin\Goods_aController@del');
+    Route::get('edit','Admin\Goods_aController@edit')->middleware(['goods']);
+    Route::post('update/','Admin\Goods_aController@update');
+});
