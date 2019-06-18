@@ -31,7 +31,7 @@
         <td>{{$v->goods_name}}</td>
         <td><img  style="width:50px; height:50px" src="http://upload.objecta.com/{{$v->goods_img}}"></td>
         <td>{{$v->goods_number}}</td>
-        <td>{{$v->create_at}}</td>
+        <td>{{date('Y-m-d H:i:s',$v->create_at)}}</td>
         <td>
             <a class="del" id="{{$v->goods_id}}">删除</a>
             <a href="/goods_a/edit/?id={{$v->goods_id}}">修改</a>
